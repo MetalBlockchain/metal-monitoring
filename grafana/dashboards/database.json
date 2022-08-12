@@ -20,7 +20,7 @@
     {
       "icon": "external link",
       "tags": [
-        "Avalanche"
+        "Metal"
       ],
       "type": "dashboards"
     }
@@ -104,7 +104,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_read_size_sum{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_read_size_sum{job=\"metalgo\"}[5m])",
           "hide": false,
           "interval": "",
           "legendFormat": "Bytes Read",
@@ -194,7 +194,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_write_size_sum{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_write_size_sum{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "Write Rate",
           "refId": "A"
@@ -284,63 +284,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -431,63 +431,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_put_sum{job=\"metalgo\"}[5m])/increase(metal_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_get_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_get_sum{job=\"metalgo\"}[5m])/increase(metal_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_delete_sum{job=\"metalgo\"}[5m])/increase(metal_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_has_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_has_sum{job=\"metalgo\"}[5m])/increase(metal_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_compact_size_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_compact_size_sum{job=\"metalgo\"}[5m])/increase(metal_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_batch_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_batch_put_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_batch_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_batch_delete_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_batch_reset_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_batch_reset_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_db_batch_replay_sum{job=\"avalanchego\"}[5m])/increase(avalanche_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_db_batch_replay_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -577,63 +577,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_X_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_X_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -724,63 +724,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_put_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_get_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_get_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_delete_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_has_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_has_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_compact_size_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_compact_size_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_batch_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_batch_put_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_batch_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_batch_delete_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_batch_reset_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_batch_reset_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_X_db_batch_replay_sum{job=\"avalanchego\"}[5m])/increase(avalanche_X_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_X_db_batch_replay_sum{job=\"metalgo\"}[5m])/increase(metal_X_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -870,63 +870,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_P_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_P_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -1017,63 +1017,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_put_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_get_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_get_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_delete_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_has_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_has_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_compact_size_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_compact_size_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_batch_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_batch_put_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_batch_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_batch_delete_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_batch_reset_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_batch_reset_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_P_db_batch_replay_sum{job=\"avalanchego\"}[5m])/increase(avalanche_P_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_P_db_batch_replay_sum{job=\"metalgo\"}[5m])/increase(metal_P_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -1163,63 +1163,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "rate(avalanche_C_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "rate(metal_C_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -1310,63 +1310,63 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_put_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "put",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_get_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_get_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_get_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "get",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_delete_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "delete",
           "refId": "C"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_has_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_has_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_has_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "has",
           "refId": "D"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_compact_size_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_compact_size_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_compact_size_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "compact",
           "refId": "E"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_batch_put_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_batch_put_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_batch_put_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch put",
           "refId": "F"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_batch_delete_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_batch_delete_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_batch_delete_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch delete",
           "refId": "G"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_batch_reset_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_batch_reset_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_batch_reset_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch reset",
           "refId": "H"
         },
         {
           "exemplar": true,
-          "expr": "increase(avalanche_C_db_batch_replay_sum{job=\"avalanchego\"}[5m])/increase(avalanche_C_db_batch_replay_count{job=\"avalanchego\"}[5m])",
+          "expr": "increase(metal_C_db_batch_replay_sum{job=\"metalgo\"}[5m])/increase(metal_C_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
           "legendFormat": "batch replay",
           "refId": "I"
@@ -1382,7 +1382,7 @@
   "schemaVersion": 30,
   "style": "dark",
   "tags": [
-    "Avalanche"
+    "Metal"
   ],
   "templating": {
     "list": []
