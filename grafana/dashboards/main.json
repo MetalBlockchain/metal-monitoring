@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -21,9 +24,8 @@
   "description": "Home dashboard with the most important indicators for your node and machine",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": null,
   "graphTooltip": 0,
-  "id": 38,
+  "id": 3,
   "links": [
     {
       "icon": "external link",
@@ -36,7 +38,9 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Stake weighted average uptime of your node, as reported by network peers. If this falls below 80% node probably won't be rewarded for the current staking period.",
       "fieldConfig": {
         "defaults": {
@@ -98,9 +102,12 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "metal_network_node_uptime_weighted_average{job=\"metalgo\"}",
           "interval": "",
@@ -112,7 +119,9 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Percentage of the stake that view your node as sufficiently online and correct to vote that node be awarded at the end of the staking period.",
       "fieldConfig": {
         "defaults": {
@@ -170,9 +179,12 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "metal_network_node_uptime_rewarding_stake{job=\"metalgo\"}",
           "interval": "",
@@ -184,14 +196,18 @@
       "type": "gauge"
     },
     {
-      "datasource": "Prometheus",
-      "description": "Number of accepted and rejected vertices on the X chain in the last minute",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Number of accepted and rejected blocks on the X chain in the last minute",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -240,7 +256,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 12,
+        "w": 9,
         "x": 12,
         "y": 0
       },
@@ -259,37 +275,112 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "round(increase(metal_X_vtx_accepted_count{job=\"metalgo\"}[1m]))>0",
+          "expr": "round(increase(metal_X_blks_accepted_count{job=\"metalgo\"}[1m]))>0",
           "interval": "",
           "legendFormat": "Accepted",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "round(increase(metal_X_vtx_rejected_count{job=\"metalgo\"}[1m]))>0",
+          "expr": "round(increase(metal_X_blks_rejected_count{job=\"metalgo\"}[1m]))>0",
           "hide": false,
           "interval": "",
           "legendFormat": "Rejected",
+          "range": true,
           "refId": "B"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "X Chain Vertices",
+      "title": "X Chain Blocks",
       "type": "timeseries"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Number of X-Chain blocks this node has proposed on the network in the last day. Since block production on P-Chain is usually below the target rate, every node proposes P blocks.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 44,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "round(increase(metal_X_blks_built{job=\"metalgo\"}[1d]))",
+          "interval": "",
+          "legendFormat": "Proposed P blocks",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Proposed X blocks",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of accepted and rejected blocks on the P chain in the last minute.",
       "fieldConfig": {
         "defaults": {
@@ -297,6 +388,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -363,15 +456,20 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "round(increase(metal_P_blks_accepted_count{job=\"metalgo\"}[1m]))>0",
           "interval": "",
@@ -379,6 +477,9 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "round(increase(metal_P_blks_rejected_count{job=\"metalgo\"}[1m]))>0",
           "hide": false,
@@ -387,13 +488,13 @@
           "refId": "B"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "P Chain Blocks",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of P-Chain blocks this node has proposed on the network in the last day. Since block production on P-Chain is usually below the target rate, every node proposes P blocks.",
       "fieldConfig": {
         "defaults": {
@@ -419,7 +520,7 @@
         "x": 21,
         "y": 6
       },
-      "id": 44,
+      "id": 45,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -435,9 +536,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "round(increase(metal_P_blks_built{job=\"metalgo\"}[1d]))",
           "interval": "",
@@ -449,7 +553,9 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Percentage of CPU used",
       "fieldConfig": {
         "defaults": {
@@ -506,9 +612,12 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "(1 - avg(irate(node_cpu_seconds_total{job=~\"metalgo-machine\", mode=\"idle\"}[1m])) by (instance)) * 100",
           "interval": "",
           "legendFormat": "",
@@ -519,7 +628,9 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Percentage of storage filled",
       "fieldConfig": {
         "defaults": {
@@ -576,22 +687,25 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "max(((node_filesystem_size_bytes{job=~\"metalgo-machine\", fstype=~\"ext4|vfat\"} - node_filesystem_free_bytes{job=~\"metalgo-machine\", fstype=~\"ext4|vfat\"}) / node_filesystem_size_bytes{job=~\"metalgo-machine\", fstype=~\"ext4|vfat\"}) * 100) by (instance)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Disk Space Used",
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of currently failing internal health checks",
       "fieldConfig": {
         "defaults": {
@@ -641,12 +755,17 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
-          "expr": "metal_health_checks_failing{job=\"metalgo\"}",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "metal_health_checks_failing{job=\"metalgo\",tag=\"all\"}",
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -654,7 +773,9 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Average time to get a response from a peer",
       "fieldConfig": {
         "defaults": {
@@ -711,9 +832,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "metal_requests_average_latency",
           "interval": "",
@@ -725,8 +849,10 @@
       "type": "stat"
     },
     {
-      "datasource": null,
-      "description": "Amount of METAL currently staked",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Amount of AVAX currently staked",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -768,13 +894,16 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "metal_P_vm_total_staked{job=\"metalgo\"}/1000000000",
           "interval": "",
-          "legendFormat": "METAL",
+          "legendFormat": "AVAX",
           "refId": "A"
         }
       ],
@@ -782,7 +911,9 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Amount of network stake node is currently connected to",
       "fieldConfig": {
         "defaults": {
@@ -835,12 +966,17 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
-          "expr": "metal_P_vm_percent_connected{job=\"metalgo\"}",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "metal_P_percent_connected{job=\"metalgo\"}",
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -848,7 +984,9 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of peers node is connected to",
       "fieldConfig": {
         "defaults": {
@@ -856,6 +994,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 2,
@@ -921,28 +1061,33 @@
             "min"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "metal_network_peers{job=\"metalgo\"}",
           "interval": "",
           "legendFormat": "Peers",
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Peer count",
       "type": "timeseries"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of accepted and rejected blocks on the C chain in the last minute.",
       "fieldConfig": {
         "defaults": {
@@ -950,6 +1095,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1016,15 +1163,20 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "round(increase(metal_C_blks_accepted_count{job=\"metalgo\"}[1m]))>0",
           "interval": "",
@@ -1032,6 +1184,9 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "round(increase(metal_C_blks_rejected_count{job=\"metalgo\"}[1m]))>0",
           "hide": false,
@@ -1040,13 +1195,13 @@
           "refId": "B"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "C Chain Blocks",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of blocks this node has proposed on the C-Chain in the last day. Since C-Chain blocks are produced at a fast rate, block producers are selected by stake weight.",
       "fieldConfig": {
         "defaults": {
@@ -1092,9 +1247,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "round(increase(metal_C_blks_built{job=\"metalgo\"}[1d]))",
           "interval": "",
@@ -1106,8 +1264,10 @@
       "type": "stat"
     },
     {
-      "datasource": null,
-      "description": "Number of blocks/vertices accepted in the last minute",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Number of blocks accepted in the last minute",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1136,6 +1296,8 @@
       "id": 28,
       "options": {
         "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -1147,22 +1309,35 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
-          "expr": "round(increase(metal_X_vtx_accepted_count{job=\"metalgo\"}[1m]))",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "round(increase(metal_X_blks_accepted_count{job=\"metalgo\"}[1m]))",
           "interval": "",
           "legendFormat": "X Chain",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
           "expr": "round(increase(metal_P_blks_accepted_count{job=\"metalgo\"}[1m]))",
           "hide": false,
           "interval": "",
           "legendFormat": "P Chain",
+          "range": true,
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "round(increase(metal_C_blks_accepted_count{job=\"metalgo\"}[1m]))",
           "hide": false,
           "interval": "",
@@ -1170,12 +1345,14 @@
           "refId": "C"
         }
       ],
-      "title": "Accepted Blocks/Vertices",
+      "title": "Accepted Blocks",
       "type": "bargauge"
     },
     {
-      "datasource": null,
-      "description": "Number of blocks/vertices currently being processed by the node",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Number of blocks currently being processed by the node",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1212,6 +1389,8 @@
       "id": 18,
       "options": {
         "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -1223,22 +1402,35 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
-          "expr": "metal_X_vtx_processing{job=\"metalgo\"}",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "metal_X_blks_processing{job=\"metalgo\"}",
           "interval": "",
           "legendFormat": "X Chain",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
           "expr": "metal_P_blks_processing{job=\"metalgo\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "P Chain",
+          "range": true,
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "metal_C_blks_processing{job=\"metalgo\"}",
           "hide": false,
           "interval": "",
@@ -1246,11 +1438,13 @@
           "refId": "C"
         }
       ],
-      "title": "Processing",
+      "title": "Blocks processing",
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Number of peers currently being benched (ignored) by the node",
       "fieldConfig": {
         "defaults": {
@@ -1279,6 +1473,8 @@
       "id": 29,
       "options": {
         "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -1290,15 +1486,21 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "metal_X_benchlist_benched_num{job=\"metalgo\"}",
           "interval": "",
           "legendFormat": "X Chain",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "metal_P_benchlist_benched_num{job=\"metalgo\"}",
           "hide": false,
           "interval": "",
@@ -1306,6 +1508,9 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "metal_C_benchlist_benched_num{job=\"metalgo\"}",
           "hide": false,
           "interval": "",
@@ -1317,7 +1522,9 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "Percentage of successful queries per chain in the last minute",
       "fieldConfig": {
         "defaults": {
@@ -1357,6 +1564,8 @@
       "id": 30,
       "options": {
         "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -1368,15 +1577,21 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "9.2.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "(increase(metal_X_handler_chits_count{job=\"metalgo\"}[1m]) + 1) / (increase(metal_X_handler_chits_count{job=\"metalgo\"}[1m]) + increase(metal_X_handler_query_failed_count{job=\"metalgo\"}[1m]) + 1)",
           "interval": "",
           "legendFormat": "X Chain",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "(increase(metal_P_handler_chits_count{job=\"metalgo\"}[1m]) + 1) / (increase(metal_P_handler_chits_count{job=\"metalgo\"}[1m]) + increase(metal_P_handler_query_failed_count{job=\"metalgo\"}[1m]) + 1)",
           "hide": false,
           "interval": "",
@@ -1384,6 +1599,9 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "expr": "(increase(metal_C_handler_chits_count{job=\"metalgo\"}[1m]) + 1) / (increase(metal_C_handler_chits_count{job=\"metalgo\"}[1m]) + increase(metal_C_handler_query_failed_count{job=\"metalgo\"}[1m]) + 1)",
           "hide": false,
           "interval": "",
@@ -1391,13 +1609,13 @@
           "refId": "C"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Queries success",
       "type": "bargauge"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus"
+      },
       "description": "How long each database operation is taking on average",
       "fieldConfig": {
         "defaults": {
@@ -1405,6 +1623,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1462,15 +1682,20 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right"
+          "placement": "right",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_put_sum{job=\"metalgo\"}[5m])/increase(metal_db_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1478,6 +1703,9 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_get_sum{job=\"metalgo\"}[5m])/increase(metal_db_get_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1485,6 +1713,9 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_delete_sum{job=\"metalgo\"}[5m])/increase(metal_db_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1492,6 +1723,9 @@
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_has_sum{job=\"metalgo\"}[5m])/increase(metal_db_has_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1499,6 +1733,9 @@
           "refId": "D"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_compact_size_sum{job=\"metalgo\"}[5m])/increase(metal_db_compact_size_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1506,6 +1743,9 @@
           "refId": "E"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_batch_put_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_put_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1513,6 +1753,9 @@
           "refId": "F"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_batch_delete_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_delete_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1520,6 +1763,9 @@
           "refId": "G"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_batch_reset_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_reset_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1527,6 +1773,9 @@
           "refId": "H"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
           "exemplar": true,
           "expr": "increase(metal_db_batch_replay_sum{job=\"metalgo\"}[5m])/increase(metal_db_batch_replay_count{job=\"metalgo\"}[5m])",
           "interval": "",
@@ -1534,14 +1783,12 @@
           "refId": "I"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Database Operations Latency",
       "type": "timeseries"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 32,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [
     "Metal"
@@ -1555,7 +1802,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Metal Main Dashboard",
+  "title": "Avalanche Main Dashboard",
   "uid": "kBQpRdWnk",
-  "version": 7
+  "version": 9,
+  "weekStart": ""
 }

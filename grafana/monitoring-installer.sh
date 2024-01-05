@@ -88,9 +88,9 @@ install_prometheus() {
   mkdir prometheus
   tar xvf prometheus.tar.gz -C prometheus --strip-components=1
   echo "Installing..."
-  sudo useradd -M -r -s /bin/false prometheus
-  sudo mkdir /etc/prometheus /var/lib/prometheus
-  sudo apt-get install -y apt-transport-https
+  id -u prometheus &>/dev/null || sudo useradd -M -r -s /bin/false prometheus
+  sudo mkdir -p /etc/prometheus /var/lib/prometheus
+  sudo apt-get install -y apt-transport-https software-properties-common
   cd prometheus
   sudo cp {prometheus,promtool} /usr/local/bin/
   sudo chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}
@@ -147,8 +147,9 @@ install_grafana() {
   echo "--------------------------------"
   echo "STEP 2: Installing Grafana"
   echo
-  wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-  echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+  sudo mkdir -p /etc/apt/keyrings/
+  wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
+  echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
   sudo apt-get update -y
   sudo apt-get install grafana -y
 

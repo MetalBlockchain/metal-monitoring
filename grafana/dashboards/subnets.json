@@ -27,7 +27,7 @@
     {
       "icon": "external link",
       "tags": [
-        "METAL"
+        "Metal"
       ],
       "type": "dashboards"
     }
@@ -1148,7 +1148,7 @@
           "exemplar": true,
           "expr": "avg_over_time(metal_${subnet}_benchlist_benched_weight{job=\"metalgo\"}[15m]) / 10^9",
           "interval": "",
-          "legendFormat": "METAL Benched",
+          "legendFormat": "AVAX Benched",
           "refId": "A"
         }
       ],
@@ -1869,7 +1869,7 @@
   "schemaVersion": 35,
   "style": "dark",
   "tags": [
-    "METAL"
+    "Metal"
   ],
   "templating": {
     "list": [
