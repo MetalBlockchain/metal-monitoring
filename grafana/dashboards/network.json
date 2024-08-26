@@ -28,18 +28,21 @@
   "links": [
     {
       "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
       "tags": [
         "Metal"
       ],
       "type": "dashboards"
     }
   ],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "gridPos": {
         "h": 1,
@@ -54,7 +57,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Stake weighted average uptime of your node, as reported by network peers. If this falls below 80% node probably won't be rewarded for the current staking period.",
       "fieldConfig": {
@@ -156,7 +160,7 @@
           "exemplar": true,
           "expr": "metal_network_node_uptime_weighted_average{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Uptime average",
+          "legendFormat": "Uptime average {{node_id}}",
           "refId": "A"
         }
       ],
@@ -165,7 +169,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Percentage of the stake that view your node as sufficiently online and correct to vote that node be awarded at the end of the staking period.",
       "fieldConfig": {
@@ -263,7 +268,7 @@
           "exemplar": true,
           "expr": "metal_network_node_uptime_rewarding_stake{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Rewarding stake",
+          "legendFormat": "Rewarding stake {{node_id}}",
           "refId": "A"
         }
       ],
@@ -308,7 +313,8 @@
         "notifications": []
       },
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of network peers the node is connected to",
       "fieldConfig": {
@@ -391,7 +397,7 @@
           "expr": "metal_network_peers{job=\"metalgo\"}",
           "format": "time_series",
           "interval": "",
-          "legendFormat": "Peers connected",
+          "legendFormat": "Peers connected {{node_id}}",
           "refId": "B"
         }
       ],
@@ -400,7 +406,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Shows the amount of time this node will wait for a response to a request before considering the request failed, and the average time it takes to get a response to a request.",
       "fieldConfig": {
@@ -482,17 +489,17 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_requests_current_timeout",
+          "expr": "metal_requests_current_timeout{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Timeout",
+          "legendFormat": "Timeout {{node_id}}",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "metal_requests_average_latency",
+          "expr": "metal_requests_average_latency{job=\"metalgo\"}",
           "hide": false,
           "interval": "",
-          "legendFormat": "Response Time",
+          "legendFormat": "Response Time {{node_id}}",
           "refId": "B"
         }
       ],
@@ -501,7 +508,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of outstanding requests related to consensus/bootstrapping. Doesn't include handshake messages.",
       "fieldConfig": {
@@ -581,9 +589,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_requests_outstanding",
+          "expr": "metal_requests_outstanding{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Outstanding Requests",
+          "legendFormat": "Outstanding Requests {{node_id}}",
           "refId": "A"
         }
       ],
@@ -592,7 +600,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -662,7 +671,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -675,134 +684,10 @@
       "pluginVersion": "8.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "rate(metal_network_accepted_received{job=\"metalgo\"}[1m])",
+          "expr": "rate(metal_network_msgs{io=\"received\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
+          "legendFormat": "{{ op }} compressed={{ compressed }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_frontier_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_ancestors_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_put_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_multi_put_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_version_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_peerlist_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_pull_query_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_push_query_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_version_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_ping_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_pong_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "N"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_chits_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "O"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "Q"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "R"
         }
       ],
       "title": "Messages Received per Second",
@@ -810,7 +695,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -880,7 +766,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -893,121 +779,10 @@
       "pluginVersion": "8.0.3",
       "targets": [
         {
-          "expr": "rate(metal_network_accepted_sent{job=\"metalgo\"}[1m])",
+          "expr": "rate(metal_network_msgs{io=\"sent\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
+          "legendFormat": "{{ op }} compressed={{ compressed }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "expr": "rate(metal_network_get_accepted_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(metal_network_get_accepted_frontier_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "expr": "rate(metal_network_get_ancestors_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "expr": "rate(metal_network_put_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "expr": "rate(metal_network_multi_put_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "expr": "rate(metal_network_get_version_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "expr": "rate(metal_network_get_peerlist_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "expr": "rate(metal_network_pull_query_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "expr": "rate(metal_network_push_query_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "expr": "rate(metal_network_version_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "expr": "rate(metal_network_ping_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "expr": "rate(metal_network_pong_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "N"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_chits_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "O"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "Q"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "R"
         }
       ],
       "title": "Messages Sent per Second",
@@ -1015,7 +790,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -1083,7 +859,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -1097,187 +873,13 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "rate(metal_network_accepted_received_bytes{job=\"metalgo\"}[1m])",
+          "expr": "rate(metal_network_msgs_bytes{io=\"received\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_frontier_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_ancestors_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_put_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_multi_put_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_version_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_peerlist_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_pull_query_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_push_query_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_version_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_ping_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_pong_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_received_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_chits_received_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_received_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_received_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "Q"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_received_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "R"
         }
       ],
       "title": "Messages Received Bandwidth",
@@ -1285,7 +887,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -1353,7 +956,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -1367,187 +970,13 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "rate(metal_network_accepted_sent_bytes{job=\"metalgo\"}[1m])",
+          "expr": "rate(metal_network_msgs_bytes{io=\"sent\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_frontier_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_ancestors_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_put_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_multi_put_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_version_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_peerlist_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_pull_query_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_push_query_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_version_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_ping_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_pong_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_get_sent_bytes{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_chits_sent_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_sent_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_sent_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "Q"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_sent_bytes{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "R"
         }
       ],
       "title": "Messages Sent Bandwidth",
@@ -1555,7 +984,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -1623,7 +1053,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -1637,187 +1067,35 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "increase(metal_network_accepted_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_accepted_received{job=\"metalgo\"}[1m])",
+          "expr": "increase(metal_network_msgs_bytes{io=\"received\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
-          "refId": "A"
+          "legendFormat": "{{ op }} {{node_id}}",
+          "refId": "A",
+          "hide": true
         },
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_accepted_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_accepted_received{job=\"metalgo\"}[1m])",
+          "expr": "increase(metal_network_msgs{io=\"received\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
+          "legendFormat": "{{ op }} {{node_id}}",
+          "refId": "B",
+          "hide": true
         },
         {
+          "refId": "Size",
           "datasource": {
-            "type": "prometheus"
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
           },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_accepted_frontier_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_accepted_frontier_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_ancestors_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_ancestors_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_put_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_put_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_multi_put_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_multi_put_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_version_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_version_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_peerlist_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_peerlist_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_pull_query_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_pull_query_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_push_query_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_push_query_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_version_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_version_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_ping_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_ping_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_pong_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_pong_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_received{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_chits_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_chits_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_app_gossip_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_app_gossip_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_app_request_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_app_request_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "Q"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_app_response_received_bytes{job=\"metalgo\"}[1m])/increase(metal_network_app_response_received{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "R"
+          "type": "math",
+          "expression": "$A / $B"
         }
       ],
       "title": "Average Received Message Size",
@@ -1825,7 +1103,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -1893,7 +1172,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -1907,187 +1186,35 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "increase(metal_network_accepted_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_accepted_sent{job=\"metalgo\"}[1m])",
+          "expr": "increase(metal_network_msgs_bytes{io=\"sent\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
-          "refId": "A"
+          "legendFormat": "{{ op }} {{node_id}}",
+          "refId": "A",
+          "hide": true
         },
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_accepted_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_accepted_sent{job=\"metalgo\"}[1m])",
+          "expr": "increase(metal_network_msgs{io=\"sent\", job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
+          "legendFormat": "{{ op }} {{node_id}}",
+          "refId": "B",
+          "hide": true
         },
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
           },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_accepted_frontier_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_accepted_frontier_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_ancestors_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_ancestors_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_put_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_put_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_multi_put_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_multi_put_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_version_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_version_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_peerlist_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_peerlist_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_pull_query_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_pull_query_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_push_query_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_push_query_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_version_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_version_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_ping_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_ping_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_pong_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_pong_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_get_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_get_sent{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_chits_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_chits_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_app_gossip_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_app_gossip_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_app_request_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_app_request_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "Q"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "increase(metal_network_app_response_sent_bytes{job=\"metalgo\"}[1m])/increase(metal_network_app_response_sent{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "R"
+          "refId": "Size",
+          "type": "math",
+          "expression": "$A / $B"
         }
       ],
       "title": "Average Sent Message Size",
@@ -2095,84 +1222,63 @@
     },
     {
       "datasource": {
-        "type": "__expr__",
-        "uid": "__expr__"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Considers the X-Chain, P-Chain and C-Chain. A lower value indicates vote pipelining (good.) A higher value indicates failed polls (not good.)",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "drawStyle": "bars",
             "lineInterpolation": "smooth",
+            "barAlignment": 0,
             "lineWidth": 1,
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "insertNulls": false,
+            "showPoints": "never",
             "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
+            "axisCenteredZero": false,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
             },
             "thresholdsStyle": {
-              "mode": "line+area"
+              "mode": "off"
             }
           },
+          "color": {
+            "mode": "palette-classic"
+          },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "transparent",
+                "color": "green",
                 "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "Queries per Accepted Container {instance=\"localhost:9650\", job=\"metalgo\"}"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
+              },
               {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
+                "color": "red",
+                "value": 80
               }
             ]
           }
-        ]
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -2180,79 +1286,52 @@
         "x": 0,
         "y": 41
       },
-      "id": 45,
+      "id": 29,
       "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "last"
-          ],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
         "tooltip": {
           "mode": "single",
-          "sort": "none"
+          "sort": "none",
+          "maxHeight": 600
+        },
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
         }
       },
-      "pluginVersion": "8.0.3",
       "targets": [
         {
-          "datasource": "Prometheus",
-          "exemplar": true,
-          "expr": "increase(metal_network_pull_query_sent{job=\"metalgo\"}[5m])",
-          "hide": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "expr": "sum(increase(metal_network_msgs{io=\"sent\", op=~\"pull_query|push_query\", job=\"metalgo\"}[5m]))",
           "interval": "",
-          "legendFormat": "pull query",
-          "refId": "A"
-        },
-        {
-          "datasource": "Prometheus",
-          "exemplar": true,
-          "expr": "increase(metal_network_push_query_sent{job=\"metalgo\"}[5m])",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "B"
-        },
-        {
-          "datasource": "Prometheus",
-          "exemplar": true,
-          "expr": "increase(metal_X_blks_accepted_count{job=\"metalgo\"}[5m]) ",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "C"
-        },
-        {
-          "datasource": "Prometheus",
-          "exemplar": true,
-          "expr": "increase(metal_C_blks_accepted_count{job=\"metalgo\"}[5m]) ",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "D"
-        },
-        {
-          "datasource": "Prometheus",
-          "exemplar": true,
-          "expr": "increase(metal_P_blks_accepted_count{job=\"metalgo\"}[5m])",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "E"
+          "legendFormat": "Messages {{node_id}}",
+          "refId": "A",
+          "hide": true
         },
         {
           "datasource": {
-            "type": "__expr__",
-            "uid": "__expr__"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "expression": "($A + $B) / ($C + $D + $E)",
-          "hide": false,
-          "refId": "Queries per Accepted Container",
-          "type": "math"
+          "expr": "sum(increase(metal_snowman_blks_accepted_count{chain=~\"C|P|X\", job=\"metalgo\"}[5m]))",
+          "interval": "",
+          "legendFormat": "Messages {{node_id}}",
+          "refId": "B",
+          "hide": true
+        },
+        {
+          "refId": "Messages",
+          "datasource": {
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
+          },
+          "type": "math",
+          "expression": "$A / $B"
         }
       ],
       "title": "Queries Sent per Accepted Container",
@@ -2260,7 +1339,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of messages that are queued to be sent to peers",
       "fieldConfig": {
@@ -2341,9 +1421,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_throttler_outbound_awaiting_release",
+          "expr": "metal_network_throttler_outbound_awaiting_release{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Messages",
+          "legendFormat": "Messages {{node_id}}",
           "refId": "A"
         }
       ],
@@ -2352,7 +1432,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Amount of the stake in AVAX that is benched (ignored) because the nodes are unhealthy",
       "fieldConfig": {
@@ -2424,7 +1505,7 @@
             "last"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -2435,24 +1516,10 @@
       "pluginVersion": "8.0.3",
       "targets": [
         {
-          "expr": "metal_X_benchlist_benched_weight/1000000000",
+          "expr": "metal_benchlist_benched_weight/1000000000",
           "interval": "",
-          "legendFormat": "X chain",
+          "legendFormat": "{{ chain }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "expr": "metal_P_benchlist_benched_weight/1000000000",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "P Chain",
-          "refId": "B"
-        },
-        {
-          "expr": "metal_C_benchlist_benched_weight/1000000000",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "C Chain",
-          "refId": "C"
         }
       ],
       "title": "Benched stake",
@@ -2461,7 +1528,8 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "gridPos": {
         "h": 1,
@@ -2476,7 +1544,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of messages waiting to acquire bytes from the inbound message throttler.",
       "fieldConfig": {
@@ -2557,9 +1626,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_byte_throttler_inbound_awaiting_acquire",
+          "expr": "metal_network_byte_throttler_inbound_awaiting_acquire{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Messages Awaiting Acquire",
+          "legendFormat": "Messages Awaiting Acquire {{node_id}}",
           "refId": "A"
         }
       ],
@@ -2568,7 +1637,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of bytes left in the validator byte allocation of the inbound message throttler",
       "fieldConfig": {
@@ -2651,9 +1721,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_byte_throttler_inbound_remaining_validator_bytes",
+          "expr": "metal_network_byte_throttler_inbound_remaining_validator_bytes{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Bytes Remaining",
+          "legendFormat": "Bytes Remaining {{node_id}}",
           "refId": "A"
         }
       ],
@@ -2662,7 +1732,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "The amount of time, on average, that we wait to acquire bytes from the throttler before reading a message.",
       "fieldConfig": {
@@ -2740,9 +1811,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(metal_network_byte_throttler_inbound_acquire_latency_sum[2m])/increase(metal_network_byte_throttler_inbound_acquire_latency_count[2m])",
+          "expr": "increase(metal_network_byte_throttler_inbound_acquire_latency_sum{job=\"metalgo\"}[2m])/increase(metal_network_byte_throttler_inbound_acquire_latency_count{job=\"metalgo\"}[2m])",
           "interval": "",
-          "legendFormat": "Acquire",
+          "legendFormat": "Acquire {{node_id}}",
           "refId": "A"
         }
       ],
@@ -2751,7 +1822,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "The amount of time, on average, that we wait to acquire from the throttler before reading a message.",
       "fieldConfig": {
@@ -2829,9 +1901,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(metal_network_buffer_throttler_inbound_acquire_latency_sum[2m])/increase(metal_network_buffer_throttler_inbound_acquire_latency_count[2m])",
+          "expr": "increase(metal_network_buffer_throttler_inbound_acquire_latency_sum{job=\"metalgo\"}[2m])/increase(metal_network_buffer_throttler_inbound_acquire_latency_count{job=\"metalgo\"}[2m])",
           "interval": "",
-          "legendFormat": "Acquire",
+          "legendFormat": "Acquire {{node_id}}",
           "refId": "A"
         }
       ],
@@ -2840,7 +1912,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of messages that are currently being handled and haven't yet returned their bytes to the inbound message throttler.",
       "fieldConfig": {
@@ -2921,9 +1994,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_byte_throttler_inbound_awaiting_release",
+          "expr": "metal_network_byte_throttler_inbound_awaiting_release{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Messages Awaiting Release",
+          "legendFormat": "Messages Awaiting Release {{node_id}}",
           "refId": "A"
         }
       ],
@@ -2932,7 +2005,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of messages waiting to acquire from the inbound message buffer throttler.",
       "fieldConfig": {
@@ -3012,9 +2086,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_buffer_throttler_inbound_awaiting_acquire",
+          "expr": "metal_network_buffer_throttler_inbound_awaiting_acquire{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Messages Awaiting",
+          "legendFormat": "Messages Awaiting {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3023,7 +2097,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of bytes left in the at-large byte allocation of the inbound message throttler",
       "fieldConfig": {
@@ -3105,9 +2180,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_byte_throttler_inbound_remaining_at_large_bytes",
+          "expr": "metal_network_byte_throttler_inbound_remaining_at_large_bytes{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Remaining Bytes",
+          "legendFormat": "Remaining Bytes {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3116,7 +2191,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of messages waiting to acquire bytes from the inbound bandwidth throttler.",
       "fieldConfig": {
@@ -3197,9 +2273,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_bandwidth_throttler_inbound_awaiting_acquire",
+          "expr": "metal_network_bandwidth_throttler_inbound_awaiting_acquire{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Messages Awaiting Acquire",
+          "legendFormat": "Messages Awaiting Acquire {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3209,7 +2285,8 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "gridPos": {
         "h": 1,
@@ -3224,7 +2301,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of bytes left in the at-large byte allocation of the outbound message throttler",
       "fieldConfig": {
@@ -3306,9 +2384,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_throttler_outbound_remaining_at_large_bytes",
+          "expr": "metal_network_throttler_outbound_remaining_at_large_bytes{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Bytes Remaining",
+          "legendFormat": "Bytes Remaining {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3317,7 +2395,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of bytes left in the validator byte allocation of the outbound message throttler",
       "fieldConfig": {
@@ -3395,9 +2474,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "metal_network_throttler_outbound_remaining_validator_bytes",
+          "expr": "metal_network_throttler_outbound_remaining_validator_bytes{job=\"metalgo\"}",
           "interval": "",
-          "legendFormat": "Bytes Remaining",
+          "legendFormat": "Bytes Remaining {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3407,7 +2486,8 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "gridPos": {
         "h": 1,
@@ -3422,7 +2502,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "From all chains",
       "fieldConfig": {
@@ -3492,7 +2573,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -3503,127 +2584,10 @@
       "pluginVersion": "8.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "rate(metal_network_accepted_failed{job=\"metalgo\"}[1m])",
+          "expr": "rate(metal_network_msgs_failed_to_send{job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "accepted",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_accepted_frontier_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get accepted frontier",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_ancestors_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "D"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_put_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "E"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_multi_put_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "F"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_version_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get version",
-          "refId": "G"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_get_peerlist_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "get peerlist",
-          "refId": "H"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_pull_query_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pull query",
-          "refId": "I"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_push_query_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "J"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_version_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "version",
-          "refId": "K"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_ping_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "ping",
-          "refId": "L"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_pong_failed{job=\"metalgo\"}[1m])",
-          "interval": "",
-          "legendFormat": "pong",
-          "refId": "M"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_chits_failed{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "N"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_failed{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "O"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_failed{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "P"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_failed{job=\"metalgo\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "Q"
         }
       ],
       "title": "Messages Failed To Send per Second",
@@ -3631,7 +2595,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of messages that could not be parsed because they were of unknown type or invalidly formatted.",
       "fieldConfig": {
@@ -3707,9 +2672,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(metal_network_msgs_failed_to_parse[1m])>0",
+          "expr": "increase(metal_network_msgs_failed_to_parse[1m])",
           "interval": "",
-          "legendFormat": "Failed to Parse",
+          "legendFormat": "Failed to Parse {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3718,7 +2683,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of inbound messages dropped (not processed) due to expiration in last minute.",
       "fieldConfig": {
@@ -3798,9 +2764,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(metal_P_handler_expired[1m])+increase(metal_C_handler_expired[1m])+increase(metal_X_handler_expired[1m])",
+          "expr": "sum(increase(metal_handler_expired[1m]) or 0 * up)",
           "interval": "",
-          "legendFormat": "Messages Dropped",
+          "legendFormat": "Messages Dropped {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3809,7 +2775,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of outbound messages dropped (not sent) due to rate-limiting in the last minute",
       "fieldConfig": {
@@ -3885,9 +2852,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(metal_network_throttler_outbound_acquire_failures[1m])",
+          "expr": "increase(metal_network_throttler_outbound_acquire_failures{job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "Messages Dropped",
+          "legendFormat": "Messages Dropped {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3896,7 +2863,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Number of inbound connections dropped due to inbound connection rate-limiting",
       "fieldConfig": {
@@ -3972,9 +2940,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(metal_network_inbound_conn_throttler_rate_limited[1m])",
+          "expr": "increase(metal_network_inbound_conn_throttler_rate_limited{job=\"metalgo\"}[1m])",
           "interval": "",
-          "legendFormat": "Rate-Limited",
+          "legendFormat": "Rate-Limited {{node_id}}",
           "refId": "A"
         }
       ],
@@ -3984,7 +2952,8 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "gridPos": {
         "h": 1,
@@ -3999,7 +2968,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "",
       "fieldConfig": {
@@ -4069,7 +3039,7 @@
             "mean"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -4082,89 +3052,25 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_push_query_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_push_query_compress_time_count[5m])+1)",
+          "expr": "increase(metal_network_codec_compressed_duration{direction=\"compression\"}[5m])/increase(metal_network_codec_compressed_count{direction=\"compression\"}[5m])",
           "hide": false,
           "interval": "",
-          "legendFormat": "Push Query",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_put_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_put_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Put",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_peerlist_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_peerlist_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Peer List",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_app_gossip_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_app_gossip_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Gossip",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_app_request_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_app_request_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Request",
-          "range": true,
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_app_gzip_response_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_app_response_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Response",
-          "range": true,
-          "refId": "G"
+          "legendFormat": "{{ op }} {{ type }} {{node_id}}",
+          "refId": "A"
         }
       ],
-      "title": "Average Message Compression Time (gzip codec)",
+      "title": "Average Message Compression Time",
       "type": "timeseries"
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "",
       "fieldConfig": {
@@ -4234,7 +3140,7 @@
             "mean"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Mean",
           "sortDesc": true
@@ -4247,419 +3153,22 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_push_query_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_push_query_compress_time_count[5m])+1)",
-          "hide": false,
+          "expr": "increase(metal_network_codec_compressed_duration{direction=\"decompression\"}[5m])/increase(metal_network_codec_compressed_count{direction=\"decompression\"}[5m])",
           "interval": "",
-          "legendFormat": "Push Query",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_put_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_put_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Put",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_peerlist_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_peerlist_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Peer List",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_app_gossip_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_app_gossip_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Gossip",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_gzip_app_request_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_app_request_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Request",
-          "range": true,
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_app_gzip_response_compress_time_sum[5m])+1)/(increase(metal_network_codec_gzip_app_response_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Response",
-          "range": true,
-          "refId": "G"
-        }
-      ],
-      "title": "Average Message Compression Time (gzip codec)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "ns"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 109
-      },
-      "id": 46,
-      "options": {
-        "legend": {
-          "calcs": [
-            "max",
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "rate(metal_network_codec_zstd_push_query_compress_time_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Push Query",
-          "range": true,
+          "legendFormat": "{{ op }} {{ type }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "rate(metal_network_codec_zstd_put_compress_time_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Put",
-          "range": true,
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "rate(metal_network_codec_zstd_peerlist_compress_time_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Peer List",
-          "range": true,
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "rate(metal_network_codec_zstd_app_gossip_compress_time_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Gossip",
-          "range": true,
-          "refId": "J"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "rate(metal_network_codec_zstd_app_request_compress_time_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Request",
-          "range": true,
-          "refId": "K"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "rate(metal_network_codec_zstd_app_response_compress_time_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Response",
-          "range": true,
-          "refId": "L"
         }
       ],
-      "title": "Total Message Compression Time per Second (zstd codec)",
+      "title": "Average Message Decompression Time",
       "type": "timeseries"
     },
     {
       "datasource": {
-        "type": "prometheus"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "ns"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 109
-      },
-      "id": 67,
-      "options": {
-        "legend": {
-          "calcs": [
-            "max",
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_zstd_push_query_compress_time_sum[5m])+1)/(increase(metal_network_codec_zstd_push_query_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Push Query",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_zstd_put_compress_time_sum[5m])+1)/(increase(metal_network_codec_zstd_put_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Put",
-          "range": true,
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_zstd_peerlist_compress_time_sum[5m])+1)/(increase(metal_network_codec_zstd_peerlist_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Peer List",
-          "range": true,
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_zstd_app_gossip_compress_time_sum[5m])+1)/(increase(metal_network_codec_zstd_app_gossip_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Gossip",
-          "range": true,
-          "refId": "J"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_zstd_app_request_compress_time_sum[5m])+1)/(increase(metal_network_codec_zstd_app_request_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Request",
-          "range": true,
-          "refId": "K"
-        },
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(increase(metal_network_codec_app_zstd_response_compress_time_sum[5m])+1)/(increase(metal_network_codec_zstd_app_response_compress_time_count[5m])+1)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "App Response",
-          "range": true,
-          "refId": "L"
-        }
-      ],
-      "title": "Average Message Compression Time (zstd codec)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Rate at which we save bytes (don't send/receive them over the network) by compressing messages/receiving compressed messages.",
       "fieldConfig": {
@@ -4729,7 +3238,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -4739,115 +3248,10 @@
       },
       "targets": [
         {
-          "exemplar": true,
-          "expr": "rate(metal_network_multi_put_compression_saved_received_bytes_sum[5m])",
+          "expr": "rate(metal_network_msgs_bytes_saved[5m])",
           "interval": "",
-          "legendFormat": "Inbound Multiput",
+          "legendFormat": "{{ io }} {{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_multi_put_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound Multiput",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_put_compression_saved_received_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Inbound Put",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_put_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound Put",
-          "refId": "D"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_push_query_compression_saved_received_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Inbound Push Query",
-          "refId": "E"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_push_query_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound Push Query",
-          "refId": "F"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_peerlist_compression_saved_received_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Inbound Peer List",
-          "refId": "G"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_peerlist_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound Peer List",
-          "refId": "H"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_compression_saved_received_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Inbound App Gossip",
-          "refId": "I"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_gossip_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound App Gossip",
-          "refId": "J"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_compression_saved_received_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Inbound App Request",
-          "refId": "K"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_request_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound App Request",
-          "refId": "L"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_compression_saved_received_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Inbound App Response",
-          "refId": "M"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(metal_network_app_response_compression_saved_sent_bytes_sum[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Outbound App Response",
-          "refId": "N"
         }
       ],
       "title": "Bytes Saved by Compression",
@@ -4861,7 +3265,34 @@
     "Metal"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "filters": [],
+        "hide": 0,
+        "label": "Filter",
+        "name": "filter",
+        "skipUrlSync": false,
+        "type": "adhoc"
+      }
+    ]
   },
   "time": {
     "from": "now-3h",

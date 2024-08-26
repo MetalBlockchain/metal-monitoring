@@ -28,17 +28,20 @@
   "links": [
     {
       "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
       "tags": [
         "Metal"
       ],
       "type": "dashboards"
     }
   ],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -103,10 +106,9 @@
       "options": {
         "legend": {
           "calcs": [
+            "min",
             "mean",
-            "lastNotNull",
-            "max",
-            "min"
+            "max"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -121,12 +123,13 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "round(increase(metal_C_blks_accepted_count{job=\"metalgo\"}[1m]))>0",
+          "expr": "round(increase(metal_snowman_blks_accepted_count{chain=\"C\", job=\"metalgo\"}[1m]))>0",
           "interval": "",
-          "legendFormat": "Accepted",
+          "legendFormat": "Blocks {{node_id}}",
           "refId": "A"
         }
       ],
@@ -135,7 +138,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -200,10 +204,9 @@
       "options": {
         "legend": {
           "calcs": [
+            "min",
             "mean",
-            "lastNotNull",
-            "max",
-            "min"
+            "max"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -218,13 +221,14 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "round(increase(metal_C_blks_rejected_count{job=\"metalgo\"}[1m]))>0",
+          "expr": "round(increase(metal_snowman_blks_rejected_count{chain=\"C\", job=\"metalgo\"}[1m]))>0",
           "interval": "",
-          "legendFormat": "Rejected",
+          "legendFormat": "Blocks {{node_id}}",
           "range": true,
           "refId": "A"
         }
@@ -234,7 +238,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "The average time between a block's issuance and acceptance by this node over the last 5 minutes.",
       "fieldConfig": {
@@ -297,10 +302,9 @@
       "options": {
         "legend": {
           "calcs": [
+            "min",
             "mean",
-            "lastNotNull",
-            "max",
-            "min"
+            "max"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -315,11 +319,12 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "expr": "rate(metal_C_blks_accepted_sum{job=\"metalgo\"}[5m]) / rate(metal_C_blks_accepted_count{job=\"metalgo\"}[5m])",
+          "expr": "rate(metal_snowman_blks_accepted_sum{chain=\"C\", job=\"metalgo\"}[5m]) / rate(metal_snowman_blks_accepted_count{chain=\"C\", job=\"metalgo\"}[5m])",
           "interval": "",
-          "legendFormat": "Avg Acceptance Latency",
+          "legendFormat": "Avg Acceptance Latency {{node_id}}",
           "refId": "A"
         }
       ],
@@ -328,7 +333,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "The average time between a block's issuance and rejection by this node over the last 5 minutes.",
       "fieldConfig": {
@@ -394,10 +400,9 @@
       "options": {
         "legend": {
           "calcs": [
+            "min",
             "mean",
-            "lastNotNull",
-            "max",
-            "min"
+            "max"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -412,11 +417,12 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "expr": "rate(metal_C_blks_rejected_sum{job=\"metalgo\"}[5m]) / rate(metal_C_blks_rejected_count{job=\"metalgo\"}[5m])",
+          "expr": "rate(metal_snowman_blks_rejected_sum{chain=\"C\", job=\"metalgo\"}[5m]) / rate(metal_snowman_blks_rejected_count{chain=\"C\", job=\"metalgo\"}[5m])",
           "interval": "",
-          "legendFormat": "Avg Rejection Latency",
+          "legendFormat": "Avg Rejection Latency {{node_id}}",
           "refId": "A"
         }
       ],
@@ -425,7 +431,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -487,7 +494,6 @@
         "legend": {
           "calcs": [
             "mean",
-            "lastNotNull",
             "max"
           ],
           "displayMode": "list",
@@ -503,12 +509,13 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "metal_C_blks_processing{job=\"metalgo\"}>0",
+          "expr": "metal_snowman_blks_processing{chain=\"C\", job=\"metalgo\"}>0",
           "interval": "",
-          "legendFormat": "Transactions",
+          "legendFormat": "Blocks {{node_id}}",
           "refId": "A"
         }
       ],
@@ -517,7 +524,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -579,7 +587,6 @@
         "legend": {
           "calcs": [
             "mean",
-            "lastNotNull",
             "max"
           ],
           "displayMode": "list",
@@ -595,12 +602,13 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "metal_C_polls > 0",
+          "expr": "metal_snowman_polls{chain=\"C\"} > 0",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Polls {{node_id}}",
           "refId": "A"
         }
       ],
@@ -609,7 +617,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Measures how much of each second is being spent handling different kinds of messages on the C-Chain.\nThe value for chits, for example, is the number of seconds spent handling chits messages per second, over the last 30 seconds.",
       "fieldConfig": {
@@ -679,7 +688,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -691,167 +700,14 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "rate(metal_C_handler_pull_query_sum{job=\"metalgo\"}[5m])",
+          "expr": "rate(metal_handler_message_handling_time{chain=\"C\", job=\"metalgo\"}[5m])",
           "interval": "",
-          "legendFormat": "pull query",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_push_query_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_chits_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_accepted_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "accepted",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_put_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_multiput_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_ancestors_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_failed_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get failed",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_query_failed_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "query failed",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_accepted_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_ancestors_failed_sum{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get ancestors failed",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_request_sum{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_request_failed_sum{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request failed",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_response_sum{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_gossip_sum{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
         }
       ],
       "title": "Message Handling Time (Total)",
@@ -859,7 +715,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Percentage of queries for which we receive chits on time.",
       "fieldConfig": {
@@ -913,7 +770,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -927,10 +784,9 @@
       "options": {
         "legend": {
           "calcs": [
+            "min",
             "mean",
-            "lastNotNull",
-            "max",
-            "min"
+            "max"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -945,14 +801,30 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "exemplar": true,
-          "expr": "(increase(metal_C_handler_chits_count{job=\"metalgo\"}[5m]) + 1) / (increase(metal_C_handler_chits_count{job=\"metalgo\"}[5m]) + increase(metal_C_handler_query_failed_count{job=\"metalgo\"}[5m]) + 1)",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "% Successful",
+          "expr": "max(increase(metal_handler_messages{chain=\"C\", op=\"chits\", job=\"metalgo\"}[5m]))",
+          "hide": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "expr": "max(increase(metal_handler_messages{chain=\"C\", op=\"query_failed\", job=\"metalgo\"}[5m]))",
+          "hide": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__"
+          },
+          "expression": "($A + 1) / ($A + $B + 1)",
+          "refId": "% Successful",
+          "type": "math"
         }
       ],
       "title": "Percentage of Successful Queries",
@@ -960,7 +832,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Measures how long each kind of request on the C-Chain takes to handle.\nThe value for chits, for example, is how long, in seconds, it takes to handle a chits message.",
       "fieldConfig": {
@@ -1030,7 +903,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -1042,167 +915,14 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "rate(metal_C_handler_pull_query_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_pull_query_count{job=\"metalgo\"}[5m])",
+          "expr": "rate(metal_handler_message_handling_time{chain=\"C\", job=\"metalgo\"}[5m])/rate(metal_handler_messages{chain=\"C\", job=\"metalgo\"}[5m])",
           "interval": "",
-          "legendFormat": "pull query",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_push_query_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_push_query_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_chits_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_chits_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_accepted_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_accepted_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "accepted",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_get_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_put_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_put_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_multiput_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_multi_put_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_ancestors_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_get_ancestors_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_failed_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_get_failed_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get failed",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_query_failed_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_query_failed_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "query failed",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_accepted_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_get_accepted_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_ancestors_failed_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_get_ancestors_failed_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get ancestors failed",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_request_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_app_request_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_request_failed_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_app_request_failed_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request failed",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_response_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_app_response_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_gossip_sum{job=\"metalgo\"}[5m])/rate(metal_C_handler_app_gossip_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
         }
       ],
       "title": "Message Handling Time (per Message)",
@@ -1210,7 +930,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1262,7 +983,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1275,10 +996,6 @@
       "id": 19,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -1292,13 +1009,25 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "metal_C_handler_unprocessed_msgs_len",
+          "expr": "metal_handler_sync_unprocessed_msgs_count{chain=\"C\"}",
           "interval": "",
-          "legendFormat": "Pending Messages",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "exemplar": true,
+          "expr": "metal_handler_async_unprocessed_msgs_count{chain=\"C\"}",
+          "interval": "",
+          "legendFormat": "{{ op }}",
+          "refId": "B"
         }
       ],
       "title": "Unprocessed Incoming Messages",
@@ -1306,7 +1035,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1358,7 +1088,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1371,10 +1101,6 @@
       "id": 29,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -1388,12 +1114,13 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "increase(metal_C_handler_expired[1m])",
+          "expr": "increase(metal_handler_expired{chain=\"C\", job=\"metalgo\"}[1m]) or 0 * up",
           "interval": "",
-          "legendFormat": "Expired",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
         }
       ],
@@ -1402,7 +1129,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "The total stake of validators currently \"benched\" due to poor query responsiveness. Queries to these validators will immediately timeout until they are removed from the \"bench.\"",
       "fieldConfig": {
@@ -1455,7 +1183,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1470,7 +1198,6 @@
         "legend": {
           "calcs": [
             "mean",
-            "lastNotNull",
             "max"
           ],
           "displayMode": "list",
@@ -1486,12 +1213,13 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "avg_over_time(metal_C_benchlist_benched_weight{job=\"metalgo\"}[15m]) / 10^9",
+          "expr": "avg_over_time(metal_benchlist_benched_weight{chain=\"C\", job=\"metalgo\"}[15m]) / 10^9",
           "interval": "",
-          "legendFormat": "AVAX Benched",
+          "legendFormat": "AVAX Benched {{node_id}}",
           "refId": "A"
         }
       ],
@@ -1500,7 +1228,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Measures how many of each kind of message are received per second on the C-Chain.",
       "fieldConfig": {
@@ -1570,7 +1299,7 @@
             "max"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -1582,167 +1311,14 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "rate(metal_C_handler_pull_query_count{job=\"metalgo\"}[5m])",
+          "expr": "rate(metal_handler_messages{chain=\"C\", job=\"metalgo\"}[5m])",
           "interval": "",
-          "legendFormat": "pull query",
+          "legendFormat": "{{ op }} {{node_id}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_push_query_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "push query",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_chits_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "chits",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_accepted_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "accepted",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_put_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "put",
-          "refId": "F"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_multi_put_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "multiput",
-          "refId": "G"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_ancestors_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get ancestors",
-          "refId": "H"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_failed_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get failed",
-          "refId": "I"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_query_failed_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "query failed",
-          "refId": "J"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_accepted_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get accepted",
-          "refId": "K"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_get_ancestors_failed_count{job=\"metalgo\"}[5m])",
-          "interval": "",
-          "legendFormat": "get ancestors failed",
-          "refId": "L"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_request_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request",
-          "refId": "M"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_request_failed_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app request failed",
-          "refId": "N"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_response_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app response",
-          "refId": "O"
-        },
-        {
-          "datasource": {
-             "type": "prometheus"
-          },
-          "exemplar": true,
-          "expr": "rate(metal_C_handler_app_gossip_count{job=\"metalgo\"}[5m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "app gossip",
-          "refId": "P"
         }
       ],
       "title": "Messages Received per Second",
@@ -1750,7 +1326,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Hit rate for the cache where the key is the byte representation of the block, and the value is the block's ID",
       "fieldConfig": {
@@ -1802,7 +1379,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1828,15 +1406,36 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "increase(metal_C_vm_chain_state_bytes_to_id_cache_hit[5m])/(increase(metal_C_vm_chain_state_bytes_to_id_cache_hit[5m])+increase(metal_C_vm_chain_state_bytes_to_id_cache_miss[5m]))",
+          "expr": "sum(increase(metal_evm_chain_state_bytes_to_id_cache_get_count{chain=\"C\", result=\"hit\"}[5m]) or 0 * up)",
           "interval": "",
-          "legendFormat": "Hit Rate",
-          "range": true,
-          "refId": "A"
+          "legendFormat": "Hits {{node_id}}",
+          "refId": "A",
+          "hide": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "expr": "sum(increase(metal_evm_chain_state_bytes_to_id_cache_get_count{chain=\"C\"}[5m]) or 0 * up)",
+          "interval": "",
+          "legendFormat": "Calls {{node_id}}",
+          "refId": "B",
+          "hide": true
+        },
+        {
+          "datasource": {
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
+          },
+          "refId": "Hit Rate",
+          "type": "math",
+          "hide": false,
+          "expression": "$A/$B"
         }
       ],
       "title": "Block ID Cache Hit Rate",
@@ -1844,7 +1443,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Hit rate for the decided block cache",
       "fieldConfig": {
@@ -1896,7 +1496,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -1922,15 +1523,35 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "increase(metal_C_vm_chain_state_decided_cache_hit[5m])/(increase(metal_C_vm_chain_state_decided_cache_hit[5m])+increase(metal_C_vm_chain_state_decided_cache_miss[5m]))",
+          "expr": "sum(increase(metal_evm_chain_state_decided_cache_get_count{chain=\"C\", result=\"hit\"}[5m]) or 0 * up)",
           "interval": "",
-          "legendFormat": "Hit Rate",
-          "range": true,
-          "refId": "A"
+          "legendFormat": "Hits {{node_id}}",
+          "refId": "A",
+          "hide": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "expr": "sum(increase(metal_evm_chain_state_decided_cache_get_count{chain=\"C\"}[5m]) or 0 * up)",
+          "interval": "",
+          "legendFormat": "Calls {{node_id}}",
+          "refId": "B",
+          "hide": true
+        },
+        {
+          "refId": "Hit Rate",
+          "datasource": {
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
+          },
+          "type": "math",
+          "expression": "$A/$B"
         }
       ],
       "title": "Decided Cache Hit Rate",
@@ -1938,7 +1559,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Hit rate for the missing block cache",
       "fieldConfig": {
@@ -1991,7 +1613,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -2017,15 +1640,35 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "increase(metal_C_vm_chain_state_missing_cache_hit[5m])/(increase(metal_C_vm_chain_state_missing_cache_hit[5m])+increase(metal_C_vm_chain_state_missing_cache_miss[5m]))",
+          "expr": "sum(increase(metal_evm_chain_state_missing_cache_get_count{chain=\"C\", result=\"hit\"}[5m]) or 0 * up)",
           "interval": "",
-          "legendFormat": "Hit Rate",
-          "range": true,
-          "refId": "A"
+          "legendFormat": "Hits {{node_id}}",
+          "refId": "A",
+          "hide": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "expr": "sum(increase(metal_evm_chain_state_missing_cache_get_count{chain=\"C\"}[5m]) or 0 * up)",
+          "interval": "",
+          "legendFormat": "Calls {{node_id}}",
+          "refId": "B",
+          "hide": true
+        },
+        {
+          "refId": "Hit Rate",
+          "datasource": {
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
+          },
+          "type": "math",
+          "expression": "$A/$B"
         }
       ],
       "title": "Missing Block Cache Hit Rate",
@@ -2033,7 +1676,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "Hit rate for the unverified block cache",
       "fieldConfig": {
@@ -2085,7 +1729,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -2111,15 +1756,35 @@
       "targets": [
         {
           "datasource": {
-             "type": "prometheus"
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "increase(metal_C_vm_chain_state_unverified_cache_hit[5m])/(increase(metal_C_vm_chain_state_unverified_cache_hit[5m])+increase(metal_C_vm_chain_state_unverified_cache_miss[5m]))",
+          "expr": "sum(increase(metal_evm_chain_state_unverified_cache_get_count{chain=\"C\", result=\"hit\"}[5m]) or 0 * up)",
           "interval": "",
-          "legendFormat": "Hit Rate",
-          "range": true,
-          "refId": "A"
+          "legendFormat": "Hits {{node_id}}",
+          "refId": "A",
+          "hide": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "expr": "sum(increase(metal_evm_chain_state_unverified_cache_get_count{chain=\"C\"}[5m]) or 0 * up)",
+          "interval": "",
+          "legendFormat": "Calls {{node_id}}",
+          "refId": "B",
+          "hide": true
+        },
+        {
+          "refId": "Hit Rate",
+          "datasource": {
+            "type": "__expr__",
+            "uid": "__expr__",
+            "name": "Expression"
+          },
+          "type": "math",
+          "expression": "$A/$B"
         }
       ],
       "title": "Unverified Block Cache Hit Rate",
@@ -2133,7 +1798,34 @@
     "Metal"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "filters": [],
+        "hide": 0,
+        "label": "Filter",
+        "name": "filter",
+        "skipUrlSync": false,
+        "type": "adhoc"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",

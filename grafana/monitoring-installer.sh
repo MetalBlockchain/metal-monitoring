@@ -85,7 +85,7 @@ install_prometheus() {
   fi
   echo "Attempting to download: $promFileName"
   wget -nv --show-progress -O prometheus.tar.gz "$promFileName"
-  mkdir prometheus
+  mkdir -p prometheus
   tar xvf prometheus.tar.gz -C prometheus --strip-components=1
   echo "Installing..."
   id -u prometheus &>/dev/null || sudo useradd -M -r -s /bin/false prometheus
@@ -232,6 +232,7 @@ install_exporter() {
   }>>node_exporter.service
   sudo cp node_exporter.service /etc/systemd/system/node_exporter.service
 
+  sudo systemctl daemon-reload
   sudo systemctl start node_exporter
   sudo systemctl enable node_exporter
 
